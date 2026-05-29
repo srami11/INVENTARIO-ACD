@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inventario Zarey</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Inventario Zarey</h1>
+      <p>Inventario madre + sedes con importación/exportación Excel</p>
+    </div>
+    <div class="actions">
+      <button id="btnExport">Exportar Excel</button>
+      <button id="btnTemplate">Descargar plantilla</button>
+      <button id="btnReset" class="danger">Borrar datos</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="sectionTitle">
+        <h2>Configurar nombres de sedes</h2>
+        <p class="hint">Estos nombres se guardan automáticamente en este navegador y se muestran en el inventario madre, formularios y reportes.</p>
+      </div>
+      <form id="branchForm" class="formgrid branches">
+        <input name="SEDE_1" placeholder="Nombre sede 1" />
+        <input name="SEDE_2" placeholder="Nombre sede 2" />
+        <input name="SEDE_3" placeholder="Nombre sede 3" />
+        <button type="submit">Guardar nombres</button>
+      </form>
+    </section>
+
+    <section class="panel grid2">
+      <div>
+        <label for="viewSelect">Ver inventario</label>
+        <select id="viewSelect"></select>
+      </div>
+      <div>
+        <label for="searchInput">Buscar</label>
+        <input id="searchInput" placeholder="Referencia, descripción, talla o color..." />
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Agregar o ajustar producto manualmente</h2>
+      <form id="itemForm" class="formgrid">
+        <input name="referencia" placeholder="Referencia" required />
+        <input name="descripcion" placeholder="Descripción" required />
+        <input name="talla" placeholder="Talla" required />
+        <input name="color" placeholder="Color" required />
+        <input name="cantidad" type="number" placeholder="Cantidad" required />
+        <select name="sede" id="sedeSelect" required></select>
+        <select name="tipoMovimiento" required>
+          <option value="SET">Definir cantidad exacta</option>
+          <option value="ENTRADA">Sumar entrada</option>
+          <option value="SALIDA">Restar salida</option>
+        </select>
+        <button type="submit">Guardar</button>
+      </form>
+      <p class="autosave">✓ Los cambios se guardan automáticamente en el navegador.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Importar Excel</h2>
+      <p class="hint">Columnas aceptadas: Referencia, Descripcion, Talla, Color, Cantidad, Sede, Movimiento. En Sede puedes escribir SEDE_1, SEDE_2, SEDE_3 o el nombre personalizado de la sede.</p>
+      <div class="importbox">
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" />
+        <button id="btnImport">Importar archivo</button>
+      </div>
+    </section>
+
+    <section class="summary" id="summaryCards"></section>
+
+    <section class="panel">
+      <div class="tableheader">
+        <h2 id="tableTitle">Inventario</h2>
+        <span id="rowCount"></span>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Datos guardados automáticamente en este navegador usando LocalStorage. Para respaldo o traslado, exporta el Excel.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
